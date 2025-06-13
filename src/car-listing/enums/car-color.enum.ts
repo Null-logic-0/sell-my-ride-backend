@@ -1,0 +1,15 @@
+export enum CarColor {
+  WHITE = 'White',
+  BLACK = 'Black',
+  SILVER = 'Silver',
+  GRAY = 'Gray',
+  BLUE = 'Blue',
+  RED = 'Red',
+  GREEN = 'Green',
+  BROWN = 'Brown',
+  YELLOW = 'Yellow',
+  ORANGE = 'Orange',
+  PURPLE = 'Purple',
+  GOLD = 'Gold',
+  OTHER = 'Other',
+}

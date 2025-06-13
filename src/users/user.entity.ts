@@ -1,8 +1,10 @@
+import { CarList } from 'src/car-listing/car-listing.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -40,6 +42,9 @@ export class User {
     nullable: false,
   })
   password: string;
+
+  @OneToMany(() => CarList, (carList) => carList.owner)
+  carLists?: CarList[];
 
   @CreateDateColumn()
   createdAt: Date;

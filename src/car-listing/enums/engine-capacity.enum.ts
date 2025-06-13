@@ -1,0 +1,12 @@
+export enum EngineCapacity {
+  ONE_POINT_ZERO = 1.0,
+  ONE_POINT_TWO = 1.2,
+  ONE_POINT_FOUR = 1.4,
+  ONE_POINT_SIX = 1.6,
+  TWO_POINT_ZERO = 2.0,
+  TWO_POINT_FIVE = 2.5,
+  THREE_POINT_ZERO = 3.0,
+  THREE_POINT_FIVE = 3.5,
+  FOUR_POINT_ZERO = 4.0,
+  FIVE_POINT_ZERO = 5.0,
+}
