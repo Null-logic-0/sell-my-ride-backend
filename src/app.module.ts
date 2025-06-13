@@ -10,6 +10,7 @@ import databaseConfig from './config/database.config';
 import enviromentValidation from './config/enviroment.validation';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
+import { CarListingModule } from './car-listing/car-listing.module';
 
 const ENV = process.env.NODE_ENV || 'development';
 
@@ -40,6 +41,8 @@ const ENV = process.env.NODE_ENV || 'development';
     }),
 
     UsersModule,
+
+    CarListingModule,
   ],
   controllers: [AppController],
   providers: [
