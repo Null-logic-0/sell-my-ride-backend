@@ -1,6 +1,6 @@
 export enum Transmission {
   MECHANICS = 'mechanics',
-  AUTOMATION = 'automation',
+  AUTOMATIC = 'automatic',
   TRIPTRONIC = 'triptronic',
   VARIATOR = 'variator',
 }

@@ -1,9 +1,9 @@
 export enum CabinColor {
-  BLACK = 'Black',
-  GRAY = 'Gray',
-  BEIGE = 'Beige',
-  RED = 'Red',
-  BROWN = 'Brown',
-  WHITE = 'White',
-  OTHER = 'Other',
+  BLACK = 'black',
+  GRAY = 'gray',
+  BEIGE = 'beige',
+  RED = 'red',
+  BROWN = 'brown',
+  WHITE = 'white',
+  OTHER = 'other',
 }

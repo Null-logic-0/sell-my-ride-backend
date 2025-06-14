@@ -152,7 +152,7 @@ export class CarList {
   price: number;
 
   @Column({ type: 'varchar', length: 20 })
-  phoneNumber: number;
+  phoneNumber: string;
 
   @Column({
     type: 'enum',
