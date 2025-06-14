@@ -1,8 +1,8 @@
 export enum CabinMaterial {
-  CLOTH = 'Cloth',
-  LEATHER = 'Leather',
-  ALCANTARA = 'Alcantara',
-  VINYL = 'Vinyl',
-  MIXED = 'Mixed',
-  OTHER = 'Other',
+  CLOTH = 'cloth',
+  LEATHER = 'leather',
+  ALCANTARA = 'alcantara',
+  VINYL = 'vinyl',
+  MIXED = 'mixed',
+  OTHER = 'other',
 }

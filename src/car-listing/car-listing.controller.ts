@@ -9,6 +9,8 @@ import {
 } from '@nestjs/common';
 import { CarListingService } from './car-listing.service';
 import { ApiOperation } from '@nestjs/swagger';
+import { CreateCarListDto } from './dtos/create-car-listing.dto';
+import { UpdateCarListingDto } from './dtos/update-car-listing.dto';
 
 @Controller('car-listing')
 export class CarListingController {
@@ -18,32 +20,42 @@ export class CarListingController {
   @ApiOperation({
     summary: 'Fetch all cars',
   })
-  async getAllCarLists() {}
+  async getAllCarLists() {
+    return this.carListingService.getAll();
+  }
 
   @Post()
   @ApiOperation({
     summary: 'Create car listing',
   })
-  async createCarListing(@Body() createCarListingDto: any) {}
+  async createCarListing(@Body() createCarListingDto: CreateCarListDto) {
+    return this.carListingService.create(createCarListingDto);
+  }
 
   @Get('/:id')
   @ApiOperation({
     summary: 'Fetch single car list',
   })
-  async getSingleCarList(@Param('id') id: number) {}
+  async getSingleCarList(@Param('id') id: number) {
+    return this.carListingService.getOne(id);
+  }
 
   @Patch('/:id')
   @ApiOperation({
-    summary: 'Fetch single car list',
+    summary: 'Update single car list',
   })
   async updateSingleCarList(
     @Param('id') id: number,
-    @Body() createCarListingDto: any,
-  ) {}
+    @Body() updateCarListingDto: UpdateCarListingDto,
+  ) {
+    return this.carListingService.update(id, updateCarListingDto);
+  }
 
   @Delete('/:id')
   @ApiOperation({
     summary: 'Delete single car list',
   })
-  async deleteCarList(@Param('id') id: number) {}
+  async deleteCarList(@Param('id') id: number) {
+    return this.carListingService.delete(id);
+  }
 }
