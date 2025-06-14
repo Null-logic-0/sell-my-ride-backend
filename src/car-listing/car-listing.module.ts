@@ -3,12 +3,17 @@ import { CarListingService } from './car-listing.service';
 import { CarListingController } from './car-listing.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CarList } from './car-listing.entity';
-import { CreateCarListingProvider } from './providers/create-car-listing.provider';
 import { UsersModule } from 'src/users/users.module';
+import { CarModel } from 'src/car-model/car-model.entity';
+import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
+import { CarListingProvider } from './providers/car-listing.provider';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CarList]), UsersModule],
-  providers: [CarListingService, CreateCarListingProvider],
+  imports: [
+    TypeOrmModule.forFeature([CarList, CarModel, Manufacturer]),
+    UsersModule,
+  ],
+  providers: [CarListingService, CarListingProvider],
   controllers: [CarListingController],
   exports: [TypeOrmModule, CarListingService],
 })

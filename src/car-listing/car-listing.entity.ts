@@ -22,6 +22,8 @@ import { CarColor } from './enums/car-color.enum';
 import { CabinMaterial } from './enums/cabin-material.enum';
 import { CabinColor } from './enums/cabin-color.enum';
 import { OwnerStatus } from './enums/owner-status.enum';
+import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
+import { CarModel } from 'src/car-model/car-model.entity';
 
 @Entity()
 export class CarList {
@@ -30,9 +32,6 @@ export class CarList {
 
   @Column({ type: 'varchar', enum: CarBodyType })
   bodyType: CarBodyType;
-
-  @Column()
-  manufacturer: string;
 
   @Column({
     type: 'varchar',
@@ -45,10 +44,13 @@ export class CarList {
     type: 'enum',
     enum: NumOfCylinders,
   })
-  NumOfCylinders: NumOfCylinders;
+  numberOfCylinders: NumOfCylinders;
 
-  @Column()
-  model: string;
+  @ManyToOne(() => Manufacturer, { eager: true })
+  manufacturer: Manufacturer;
+
+  @ManyToOne(() => CarModel, { eager: true })
+  model: CarModel;
 
   @Column({ type: 'int' })
   year: number;
