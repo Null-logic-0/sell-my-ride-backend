@@ -21,13 +21,13 @@ export class CarListingService {
   async create(
     createCarListingDto: CreateCarListDto,
     modelId: number,
-    makeId: number,
+    manufacturerId: number,
   ) {
     try {
       return await this.carListingProvider.create(
         createCarListingDto,
-        makeId,
         modelId,
+        manufacturerId,
       );
     } catch (error) {
       if (error instanceof NotFoundException) {

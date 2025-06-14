@@ -29,12 +29,13 @@ export class CarListingProvider {
   async create(
     createCarListingDto: CreateCarListDto,
     modelId: number,
-    makeId: number,
+    manufacturerId: number,
   ) {
     try {
       const manufacturer = await this.manufacturerRepository.findOneBy({
-        id: makeId,
+        id: manufacturerId,
       });
+
       if (!manufacturer) {
         throw new NotFoundException('Manufacturer not found');
       }
