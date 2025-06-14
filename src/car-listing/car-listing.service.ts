@@ -7,19 +7,32 @@ import { Repository } from 'typeorm';
 import { CarList } from './car-listing.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCarListDto } from './dtos/create-car-listing.dto';
+import { CarListingProvider } from './providers/car-listing.provider';
 
 @Injectable()
 export class CarListingService {
   constructor(
     @InjectRepository(CarList)
     private readonly carListRepository: Repository<CarList>,
+
+    private readonly carListingProvider: CarListingProvider,
   ) {}
 
-  async create(createCarListingDto: CreateCarListDto) {
+  async create(
+    createCarListingDto: CreateCarListDto,
+    modelId: number,
+    makeId: number,
+  ) {
     try {
-      const newCarListing = this.carListRepository.create(createCarListingDto);
-      return await this.carListRepository.save(newCarListing);
+      return await this.carListingProvider.create(
+        createCarListingDto,
+        makeId,
+        modelId,
+      );
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException(error);
     }
   }
@@ -40,6 +53,9 @@ export class CarListingService {
       }
       return car;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException(error);
     }
   }
@@ -54,6 +70,9 @@ export class CarListingService {
       Object.assign(car, attrs);
       return this.carListRepository.save(car);
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException(error);
     }
   }
@@ -71,6 +90,9 @@ export class CarListingService {
         id,
       };
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException(error);
     }
   }

@@ -41,6 +41,9 @@ export class UsersService {
       }
       return user;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException(error);
     }
   }
@@ -57,6 +60,9 @@ export class UsersService {
       Object.assign(user, attrs);
       return this.usersRepository.save(user);
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException(error || 'Invalid update');
     }
   }
@@ -73,6 +79,9 @@ export class UsersService {
         id,
       };
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException(error);
     }
   }

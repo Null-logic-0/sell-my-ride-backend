@@ -42,11 +42,6 @@ export class CreateCarListDto {
   @IsNotEmpty()
   bodyType: CarBodyType;
 
-  @ApiProperty({ example: 'Mercedes', description: 'Manufacturer of the car' })
-  @IsString()
-  @IsNotEmpty()
-  manufacturer: string;
-
   @ApiProperty({ example: 'GASOLINE', description: 'Fuel type of the car' })
   @IsEnum(FuelType)
   @IsNotEmpty()
@@ -55,12 +50,17 @@ export class CreateCarListDto {
   @ApiProperty({ example: 4, description: 'Number of engine cylinders' })
   @IsEnum(NumOfCylinders)
   @IsNotEmpty()
-  NumOfCylinders: NumOfCylinders;
+  numberOfCylinders: NumOfCylinders;
+
+  @ApiProperty({ example: 'Mercedes', description: 'Manufacturer of the car' })
+  @IsInt()
+  @IsNotEmpty()
+  manufacturerId: number;
 
   @ApiProperty({ example: 'S-Class', description: 'Model of the car' })
-  @IsString()
+  @IsInt()
   @IsNotEmpty()
-  model: string;
+  modelId: number;
 
   @ApiProperty({ example: 2019, description: 'Manufacturing year of the car' })
   @IsInt()
@@ -185,7 +185,6 @@ export class CreateCarListDto {
     type: [String],
   })
   @IsArray()
-  @IsUrl()
   @IsString({ each: true })
   @ArrayNotEmpty()
   @ArrayMinSize(1)

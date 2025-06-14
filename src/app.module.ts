@@ -11,6 +11,8 @@ import enviromentValidation from './config/enviroment.validation';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
 import { CarListingModule } from './car-listing/car-listing.module';
+import { ManufacturerModule } from './manufacturer/manufacturer.module';
+import { CarModelModule } from './car-model/car-model.module';
 
 const ENV = process.env.NODE_ENV || 'development';
 
@@ -43,6 +45,10 @@ const ENV = process.env.NODE_ENV || 'development';
     UsersModule,
 
     CarListingModule,
+
+    ManufacturerModule,
+
+    CarModelModule,
   ],
   controllers: [AppController],
   providers: [

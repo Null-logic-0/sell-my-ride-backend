@@ -29,7 +29,11 @@ export class CarListingController {
     summary: 'Create car listing',
   })
   async createCarListing(@Body() createCarListingDto: CreateCarListDto) {
-    return this.carListingService.create(createCarListingDto);
+    return this.carListingService.create(
+      createCarListingDto,
+      createCarListingDto.modelId,
+      createCarListingDto.manufacturerId,
+    );
   }
 
   @Get('/:id')
