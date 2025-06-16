@@ -8,20 +8,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { CreateUserProvider } from './providers/create-user.provider';
+import { FindOneUserByEmailProvider } from './providers/find-one-user-by-email.provider';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
+
+    private readonly createUsersProvider: CreateUserProvider,
+
+    private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider,
   ) {}
 
   async createUser(createUserDto: CreateUserDto) {
-    try {
-      const newUser = this.usersRepository.create(createUserDto);
-      return await this.usersRepository.save(newUser);
-    } catch (error) {
-      throw new BadRequestException(error);
-    }
+    return this.createUsersProvider.create(createUserDto);
   }
 
   async getAllUsers() {
@@ -84,5 +85,9 @@ export class UsersService {
       }
       throw new BadRequestException(error);
     }
+  }
+
+  public async findOneByEmail(email: string) {
+    return await this.findOneUserByEmailProvider.findOneByEmail(email);
   }
 }

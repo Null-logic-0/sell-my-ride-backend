@@ -7,7 +7,8 @@ import { Repository } from 'typeorm';
 import { CarList } from './car-listing.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCarListDto } from './dtos/create-car-listing.dto';
-import { CarListingProvider } from './providers/car-listing.provider';
+import { CreateCarListingProvider } from './providers/create-car-listing.provider';
+import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 
 @Injectable()
 export class CarListingService {
@@ -15,26 +16,21 @@ export class CarListingService {
     @InjectRepository(CarList)
     private readonly carListRepository: Repository<CarList>,
 
-    private readonly carListingProvider: CarListingProvider,
+    private readonly createCarListingProvider: CreateCarListingProvider,
   ) {}
 
   async create(
     createCarListingDto: CreateCarListDto,
     modelId: number,
     manufacturerId: number,
+    sub: ActiveUserData,
   ) {
-    try {
-      return await this.carListingProvider.create(
-        createCarListingDto,
-        modelId,
-        manufacturerId,
-      );
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new BadRequestException(error);
-    }
+    return await this.createCarListingProvider.create(
+      createCarListingDto,
+      modelId,
+      manufacturerId,
+      sub,
+    );
   }
 
   async getAll() {

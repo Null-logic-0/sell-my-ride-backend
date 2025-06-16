@@ -6,14 +6,14 @@ import { CarList } from './car-listing.entity';
 import { UsersModule } from 'src/users/users.module';
 import { CarModel } from 'src/car-model/car-model.entity';
 import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
-import { CarListingProvider } from './providers/car-listing.provider';
+import { CreateCarListingProvider } from './providers/create-car-listing.provider';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([CarList, CarModel, Manufacturer]),
     UsersModule,
   ],
-  providers: [CarListingService, CarListingProvider],
+  providers: [CarListingService, CreateCarListingProvider],
   controllers: [CarListingController],
   exports: [TypeOrmModule, CarListingService],
 })
