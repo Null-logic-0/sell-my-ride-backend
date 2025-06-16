@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { CarList } from 'src/car-listing/car-listing.entity';
 import {
   Column,
@@ -38,8 +39,9 @@ export class User {
   @Column({
     type: 'varchar',
     length: 96,
-    nullable: false,
+    nullable: true,
   })
+  @Exclude()
   password: string;
 
   @OneToMany(() => CarList, (carList) => carList.owner)

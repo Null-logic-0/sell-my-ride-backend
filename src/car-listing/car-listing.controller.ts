@@ -11,6 +11,8 @@ import { CarListingService } from './car-listing.service';
 import { ApiOperation } from '@nestjs/swagger';
 import { CreateCarListDto } from './dtos/create-car-listing.dto';
 import { UpdateCarListingDto } from './dtos/update-car-listing.dto';
+import { ActiveUser } from 'src/auth/decorators/active-user.decoretor';
+import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 
 @Controller('car-listing')
 export class CarListingController {
@@ -28,11 +30,15 @@ export class CarListingController {
   @ApiOperation({
     summary: 'Create car listing',
   })
-  async createCarListing(@Body() createCarListingDto: CreateCarListDto) {
+  async createCarListing(
+    @Body() createCarListingDto: CreateCarListDto,
+    @ActiveUser() user: ActiveUserData,
+  ) {
     return this.carListingService.create(
       createCarListingDto,
       createCarListingDto.modelId,
       createCarListingDto.manufacturerId,
+      user,
     );
   }
 

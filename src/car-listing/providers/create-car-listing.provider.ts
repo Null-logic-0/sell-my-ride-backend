@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/users/users.service';
@@ -10,9 +11,10 @@ import { Repository } from 'typeorm';
 import { CarModel } from 'src/car-model/car-model.entity';
 import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
 import { CreateCarListDto } from '../dtos/create-car-listing.dto';
+import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 
 @Injectable()
-export class CarListingProvider {
+export class CreateCarListingProvider {
   constructor(
     private readonly usersService: UsersService,
 
@@ -30,8 +32,13 @@ export class CarListingProvider {
     createCarListingDto: CreateCarListDto,
     modelId: number,
     manufacturerId: number,
+    user: ActiveUserData,
   ) {
     try {
+      const owner = await this.usersService.getSingleUser(user.sub);
+      if (!owner) {
+        throw new UnauthorizedException('You are not sign in application!');
+      }
       const manufacturer = await this.manufacturerRepository.findOneBy({
         id: manufacturerId,
       });
@@ -47,11 +54,15 @@ export class CarListingProvider {
         ...createCarListingDto,
         manufacturer,
         model,
+        owner,
       });
 
       return await this.carListRepository.save(newCarListing);
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof UnauthorizedException
+      ) {
         throw error;
       }
       throw new BadRequestException(error);

@@ -172,7 +172,7 @@ export class CarList {
   @Column({ type: 'enum', enum: OwnerStatus, default: OwnerStatus.OWNER })
   ownerStatus: OwnerStatus;
 
-  @ManyToOne(() => User, (user) => user.carLists)
+  @ManyToOne(() => User, (user) => user.carLists, { eager: true })
   owner: User;
 
   @CreateDateColumn({
