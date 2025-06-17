@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -18,6 +19,7 @@ import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { PriceRange } from './enums/price-range.enum';
 
 @Controller('car-listing')
 export class CarListingController {
@@ -28,8 +30,20 @@ export class CarListingController {
     summary: 'Fetch all cars',
   })
   @Auth(AuthType.None)
-  async getAllCarLists() {
-    return this.carListingService.getAll();
+  async getAllCarLists(
+    @Query('year') year?: number,
+    @Query('priceRange') priceRange?: PriceRange,
+    @Query('model') model?: string,
+    @Query('manufacturer') manufacturer?: string,
+    @Query('city') city?: string,
+  ) {
+    return this.carListingService.getAll({
+      year,
+      priceRange,
+      model,
+      manufacturer,
+      city,
+    });
   }
 
   @Post()

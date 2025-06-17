@@ -8,7 +8,7 @@ export class CreateCarModelDto {
       'Name of the car model. It should be between 3 and 96 characters long.',
   })
   @IsString()
-  @MinLength(3)
+  @MinLength(2)
   @MaxLength(96)
   @IsNotEmpty()
   model: string;

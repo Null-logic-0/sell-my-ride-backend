@@ -10,6 +10,8 @@ import { CreateCarListDto } from './dtos/create-car-listing.dto';
 import { CreateCarListingProvider } from './providers/create-car-listing.provider';
 import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 import { UpdateCarListingProvider } from './providers/update-car-listing.provider';
+import { PriceRange } from './enums/price-range.enum';
+import { getPriceBounds } from './utils/price.utils';
 
 @Injectable()
 export class CarListingService {
@@ -38,11 +40,56 @@ export class CarListingService {
     );
   }
 
-  async getAll() {
+  async getAll(filters: {
+    year?: number;
+    priceRange?: PriceRange;
+    model?: string;
+    manufacturer?: string;
+    city?: string;
+  }) {
     try {
-      return await this.carListRepository.find();
+      const query = this.carListRepository
+        .createQueryBuilder('car')
+        .leftJoinAndSelect('car.model', 'model')
+        .leftJoinAndSelect('car.manufacturer', 'manufacturer')
+        .leftJoinAndSelect('car.owner', 'owner');
+
+      if (filters.year) {
+        query.andWhere('car.year = :year', { year: filters.year });
+      }
+      if (filters.priceRange) {
+        const bounds = getPriceBounds(filters.priceRange);
+        if (bounds.min !== undefined && bounds.max !== undefined) {
+          query.andWhere('CAST(car.price AS NUMERIC) BETWEEN :min AND :max', {
+            min: bounds.min,
+            max: bounds.max,
+          });
+        } else if (bounds.min !== undefined) {
+          query.andWhere('CAST(car.price AS NUMERIC) > :min', {
+            min: bounds.min,
+          });
+        }
+      }
+
+      if (filters.model) {
+        query.andWhere('model.model ILIKE :model', {
+          model: `%${filters.model}%`,
+        });
+      }
+
+      if (filters.manufacturer) {
+        query.andWhere('manufacturer.make ILIKE :manufacturer', {
+          manufacturer: `%${filters.manufacturer}%`,
+        });
+      }
+
+      if (filters.city) {
+        query.andWhere('car.city ILIKE :city', { city: `%${filters.city}%` });
+      }
+
+      return await query.getMany();
     } catch (error) {
-      throw new BadRequestException(error);
+      throw new BadRequestException(error.message || error);
     }
   }
 
