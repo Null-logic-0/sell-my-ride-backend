@@ -32,7 +32,6 @@ import { CarColor } from '../enums/car-color.enum';
 import { CarStatus } from '../enums/car-status.enum';
 import { DoorNumbers } from '../enums/door-numbers.enum';
 import { DriveWheels } from '../enums/drive-wheels.enum';
-import { OwnerStatus } from '../enums/owner-status.enum';
 import { SteeringWheel } from '../enums/steering-wheel.enum';
 import { Transmission } from '../enums/transmission.enum';
 
@@ -224,11 +223,4 @@ export class CreateCarListDto {
   @ApiProperty({ example: false, description: 'Whether the car is sold' })
   @IsBoolean()
   isSold: boolean;
-
-  @ApiProperty({
-    example: 'OWNER',
-    description: 'Owner status: OWNER or DEALER',
-  })
-  @IsEnum(OwnerStatus)
-  ownerStatus: OwnerStatus;
 }

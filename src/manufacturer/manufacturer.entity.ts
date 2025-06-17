@@ -1,5 +1,4 @@
-import { CarModel } from 'src/car-model/car-model.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Manufacturer {
@@ -11,9 +10,4 @@ export class Manufacturer {
     nullable: false,
   })
   make: string;
-
-  @OneToMany(() => CarModel, (model) => model.manufacturer, {
-    nullable: false,
-  })
-  models: CarModel[];
 }
