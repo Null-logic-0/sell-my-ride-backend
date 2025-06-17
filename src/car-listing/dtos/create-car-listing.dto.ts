@@ -179,16 +179,21 @@ export class CreateCarListDto {
   city: string;
 
   @ApiProperty({
-    example: ['http://example.com/photo1.jpg', 'http://example.com/photo2.jpg'],
+    example: [
+      'https://bucket.s3.region.amazonaws.com/key1.jpg',
+      'https://bucket.s3.region.amazonaws.com/key2.jpg',
+    ],
     description: 'List of car photo URLs (1 to 10)',
     type: [String],
+    required: false,
   })
   @IsArray()
-  @IsString({ each: true })
+  @IsOptional()
   @ArrayNotEmpty()
   @ArrayMinSize(1)
   @ArrayMaxSize(10)
-  photos: string[];
+  @IsString({ each: true })
+  photos?: string[];
 
   @ApiProperty({
     example: 'https://youtube.com/sample-video',

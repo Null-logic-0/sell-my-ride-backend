@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCarListDto } from './dtos/create-car-listing.dto';
 import { CreateCarListingProvider } from './providers/create-car-listing.provider';
 import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
+import { UpdateCarListingProvider } from './providers/update-car-listing.provider';
 
 @Injectable()
 export class CarListingService {
@@ -17,6 +18,8 @@ export class CarListingService {
     private readonly carListRepository: Repository<CarList>,
 
     private readonly createCarListingProvider: CreateCarListingProvider,
+
+    private readonly updateCarListingProvider: UpdateCarListingProvider,
   ) {}
 
   async create(
@@ -24,12 +27,14 @@ export class CarListingService {
     modelId: number,
     manufacturerId: number,
     sub: ActiveUserData,
+    files: Express.Multer.File[],
   ) {
     return await this.createCarListingProvider.create(
       createCarListingDto,
       modelId,
       manufacturerId,
       sub,
+      files,
     );
   }
 
@@ -56,21 +61,13 @@ export class CarListingService {
     }
   }
 
-  async update(id: number, attrs: Partial<CarList>) {
-    try {
-      const car = await this.carListRepository.findOneBy({ id });
-      if (!car) {
-        throw new NotFoundException('Car list not found');
-      }
+  async update(
+    carId: number,
 
-      Object.assign(car, attrs);
-      return this.carListRepository.save(car);
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new BadRequestException(error);
-    }
+    attrs: Partial<CarList>,
+    files: Express.Multer.File[],
+  ) {
+    return this.updateCarListingProvider.update(carId, attrs, files);
   }
 
   async delete(id: number) {

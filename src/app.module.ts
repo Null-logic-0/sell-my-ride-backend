@@ -19,6 +19,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AcessTokenGuard } from './auth/guards/acess-token/acess-token.guard';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import { RolesGuard } from './auth/guards/authentication/roles.guard';
+import { S3Module } from './uploads/s3.module';
 
 const ENV = process.env.NODE_ENV || 'development';
 
@@ -60,6 +61,8 @@ const ENV = process.env.NODE_ENV || 'development';
     CarModelModule,
 
     AuthModule,
+
+    S3Module,
   ],
   controllers: [AppController],
   providers: [

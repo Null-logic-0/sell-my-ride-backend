@@ -12,6 +12,7 @@ import { CarModel } from 'src/car-model/car-model.entity';
 import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
 import { CreateCarListDto } from '../dtos/create-car-listing.dto';
 import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
+import { S3Service } from 'src/uploads/s3.service';
 
 @Injectable()
 export class CreateCarListingProvider {
@@ -26,6 +27,8 @@ export class CreateCarListingProvider {
 
     @InjectRepository(Manufacturer)
     private readonly manufacturerRepository: Repository<Manufacturer>,
+
+    private readonly s3Service: S3Service,
   ) {}
 
   async create(
@@ -33,6 +36,7 @@ export class CreateCarListingProvider {
     modelId: number,
     manufacturerId: number,
     user: ActiveUserData,
+    files: Express.Multer.File[],
   ) {
     try {
       const owner = await this.usersService.getSingleUser(user.sub);
@@ -50,6 +54,16 @@ export class CreateCarListingProvider {
       if (!model) {
         throw new NotFoundException('Car model not found');
       }
+
+      if (!files || files.length === 0) {
+        throw new BadRequestException('At least one image is required.');
+      }
+
+      createCarListingDto.photos = await this.s3Service.uploadCarImages(
+        files,
+        user.sub,
+      );
+
       const newCarListing = this.carListRepository.create({
         ...createCarListingDto,
         manufacturer,
