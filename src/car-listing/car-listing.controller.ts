@@ -20,6 +20,8 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { PriceRange } from './enums/price-range.enum';
+import { CarBodyType } from './enums/car-body-types.enum';
+import { CarStatus } from './enums/car-status.enum';
 
 @Controller('car-listing')
 export class CarListingController {
@@ -36,6 +38,9 @@ export class CarListingController {
     @Query('model') model?: string,
     @Query('manufacturer') manufacturer?: string,
     @Query('city') city?: string,
+    @Query('bodyType') bodyType?: CarBodyType,
+    @Query('carStatus') carStatus?: CarStatus,
+    @Query('inStock') inStock?: boolean,
   ) {
     return this.carListingService.getAll({
       year,
@@ -43,6 +48,9 @@ export class CarListingController {
       model,
       manufacturer,
       city,
+      bodyType,
+      carStatus,
+      inStock,
     });
   }
 
