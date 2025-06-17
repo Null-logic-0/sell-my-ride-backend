@@ -225,7 +225,10 @@ export class CreateCarListDto {
   @IsEnum(CarStatus)
   carStatus: CarStatus;
 
-  @ApiProperty({ example: false, description: 'Whether the car is sold' })
+  @ApiProperty({
+    example: false,
+    description: 'Whether the car is available or not',
+  })
   @IsBoolean()
-  isSold: boolean;
+  inStock: boolean;
 }

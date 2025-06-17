@@ -164,9 +164,9 @@ export class CarList {
 
   @Column({
     type: 'boolean',
-    default: false,
+    default: true,
   })
-  isSold: boolean;
+  inStock: boolean;
 
   @ManyToOne(() => User, (user) => user.carLists, { eager: true })
   owner: User;

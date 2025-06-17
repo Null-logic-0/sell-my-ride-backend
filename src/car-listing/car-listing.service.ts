@@ -12,6 +12,8 @@ import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 import { UpdateCarListingProvider } from './providers/update-car-listing.provider';
 import { PriceRange } from './enums/price-range.enum';
 import { getPriceBounds } from './utils/price.utils';
+import { CarBodyType } from './enums/car-body-types.enum';
+import { CarStatus } from './enums/car-status.enum';
 
 @Injectable()
 export class CarListingService {
@@ -46,6 +48,9 @@ export class CarListingService {
     model?: string;
     manufacturer?: string;
     city?: string;
+    bodyType?: CarBodyType;
+    carStatus?: CarStatus;
+    inStock?: boolean;
   }) {
     try {
       const query = this.carListRepository
@@ -57,6 +62,7 @@ export class CarListingService {
       if (filters.year) {
         query.andWhere('car.year = :year', { year: filters.year });
       }
+
       if (filters.priceRange) {
         const bounds = getPriceBounds(filters.priceRange);
         if (bounds.min !== undefined && bounds.max !== undefined) {
@@ -87,6 +93,21 @@ export class CarListingService {
         query.andWhere('car.city ILIKE :city', { city: `%${filters.city}%` });
       }
 
+      if (filters.bodyType) {
+        query.andWhere('car.bodyType ILIKE :bodyType', {
+          bodyType: `%${filters.bodyType}%`,
+        });
+      }
+      if (filters.carStatus) {
+        query.andWhere('car.carStatus = :carStatus', {
+          carStatus: filters.carStatus,
+        });
+      }
+
+      if (filters.inStock !== undefined) {
+        const inStockBool = filters.inStock === true;
+        query.andWhere('car.inStock = :inStock', { inStock: inStockBool });
+      }
       return await query.getMany();
     } catch (error) {
       throw new BadRequestException(error.message || error);
