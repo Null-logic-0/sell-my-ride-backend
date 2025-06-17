@@ -4,25 +4,29 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { HashingProvider } from 'src/auth/providers/hashing.provider';
-import { User } from '../user.entity';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { User } from 'src/users/user.entity';
+import { Repository } from 'typeorm';
+import { HashingProvider } from './hashing.provider';
+import { SignUpDto } from '../dtos/sign-up.dto';
+import { Role } from '../enums/role.enum';
+import { GenerateTokensProvider } from './generate-tokens.provider';
 
 @Injectable()
-export class CreateUserProvider {
+export class SignUpProvider {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
 
     @Inject(forwardRef(() => HashingProvider))
     private readonly hashingProvider: HashingProvider,
+
+    private readonly generateTokensProvider: GenerateTokensProvider,
   ) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async signUp(signUpDto: SignUpDto) {
     const existingUser = await this.usersRepository.findOne({
-      where: { email: createUserDto.email },
+      where: { email: signUpDto.email },
     });
 
     if (existingUser) {
@@ -30,14 +34,18 @@ export class CreateUserProvider {
     }
     try {
       let newUser = this.usersRepository.create({
-        ...createUserDto,
-        password: await this.hashingProvider.hashPassword(
-          createUserDto.password,
-        ),
+        ...signUpDto,
+        role: Role.User,
+        password: await this.hashingProvider.hashPassword(signUpDto.password),
       });
-      newUser = await this.usersRepository.save(newUser);
 
-      return newUser;
+      newUser = await this.usersRepository.save(newUser);
+      const tokens = await this.generateTokensProvider.generateToken(newUser);
+
+      return {
+        tokens,
+        newUser,
+      };
     } catch (error) {
       throw new BadRequestException(error);
     }

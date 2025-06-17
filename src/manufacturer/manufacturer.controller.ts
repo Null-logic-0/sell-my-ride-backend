@@ -11,6 +11,10 @@ import { ManufacturerService } from './manufacturer.service';
 import { ApiOperation } from '@nestjs/swagger';
 import { CreateManufacturerDto } from './dtos/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dtos/update-manufacturer.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { AuthType } from 'src/auth/enums/auth-type.enum';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/enums/role.enum';
 
 @Controller('manufacturer')
 export class ManufacturerController {
@@ -20,6 +24,7 @@ export class ManufacturerController {
   @ApiOperation({
     summary: 'Fetch all manufacturers.',
   })
+  @Auth(AuthType.None)
   getAllManufacturers() {
     return this.manufacturerService.getAll();
   }
@@ -28,6 +33,7 @@ export class ManufacturerController {
   @ApiOperation({
     summary: 'Create new manufacturer.',
   })
+  @Roles(Role.Admin, Role.Dealer)
   createManufacturer(@Body() createManufacturerDto: CreateManufacturerDto) {
     return this.manufacturerService.create(createManufacturerDto);
   }
@@ -36,6 +42,7 @@ export class ManufacturerController {
   @ApiOperation({
     summary: 'Update manufacturer.',
   })
+  @Roles(Role.Admin, Role.Dealer)
   updateManufacturer(
     @Param('id') id: number,
     @Body() updateManufacturerDto: UpdateManufacturerDto,
@@ -47,6 +54,7 @@ export class ManufacturerController {
   @ApiOperation({
     summary: 'Delete manufacturer',
   })
+  @Roles(Role.Admin, Role.Dealer)
   deleteManufacturer(@Param('id') id: number) {
     return this.manufacturerService.delete(id);
   }

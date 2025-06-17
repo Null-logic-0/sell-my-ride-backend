@@ -11,6 +11,10 @@ import { ApiOperation } from '@nestjs/swagger';
 import { CarModelService } from './car-model.service';
 import { CreateCarModelDto } from './dtos/create-car-model.dto';
 import { UpdateCarModelDto } from './dtos/update-car-model.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { AuthType } from 'src/auth/enums/auth-type.enum';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/enums/role.enum';
 
 @Controller('car-model')
 export class CarModelController {
@@ -20,7 +24,8 @@ export class CarModelController {
   @ApiOperation({
     summary: 'Fetch all car models.',
   })
-  getAllManufacturers() {
+  @Auth(AuthType.None)
+  getAllModels() {
     return this.carModelService.getAll();
   }
 
@@ -28,7 +33,8 @@ export class CarModelController {
   @ApiOperation({
     summary: 'Create new car model.',
   })
-  createManufacturer(@Body() createCarModelDto: CreateCarModelDto) {
+  @Roles(Role.Admin, Role.Dealer)
+  createNewModel(@Body() createCarModelDto: CreateCarModelDto) {
     return this.carModelService.create(createCarModelDto);
   }
 
@@ -36,7 +42,8 @@ export class CarModelController {
   @ApiOperation({
     summary: 'Update car model.',
   })
-  updateManufacturer(
+  @Roles(Role.Admin, Role.Dealer)
+  updateModel(
     @Param('id') id: number,
     @Body() updateCarModelDto: UpdateCarModelDto,
   ) {
@@ -47,7 +54,8 @@ export class CarModelController {
   @ApiOperation({
     summary: 'Delete car model.',
   })
-  deleteManufacturer(@Param('id') id: number) {
+  @Roles(Role.Admin, Role.Dealer)
+  deleteModel(@Param('id') id: number) {
     return this.carModelService.delete(id);
   }
 }

@@ -18,6 +18,7 @@ import jwtConfig from './auth/config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
 import { AcessTokenGuard } from './auth/guards/acess-token/acess-token.guard';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
+import { RolesGuard } from './auth/guards/authentication/roles.guard';
 
 const ENV = process.env.NODE_ENV || 'development';
 
@@ -68,6 +69,10 @@ const ENV = process.env.NODE_ENV || 'development';
       useClass: AuthenticationGuard,
     },
     AcessTokenGuard,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard, // Then check roles
+    },
     {
       provide: APP_INTERCEPTOR,
       useClass: DataResponseInterceptor,

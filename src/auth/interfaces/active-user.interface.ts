@@ -1,5 +1,8 @@
+import { Role } from '../enums/role.enum';
+
 export interface ActiveUserData {
   sub: number;
   email: string;
-  userName: string;
+  role: Role;
+  tokenVersion: number;
 }

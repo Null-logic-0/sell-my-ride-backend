@@ -7,7 +7,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class UpdateUserDto {
+export class UpdateMeDto {
   @ApiProperty({
     example: 'userName: "John Doe"',
   })
