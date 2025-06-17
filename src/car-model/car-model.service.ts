@@ -8,19 +8,27 @@ import { CarModel } from './car-model.entity';
 import { Repository } from 'typeorm';
 import { CreateCarModelDto } from './dtos/create-car-model.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CarModelProvider } from './providers/car-model.provider';
 
 @Injectable()
 export class CarModelService {
   constructor(
     @InjectRepository(CarModel)
     private readonly carModelRepository: Repository<CarModel>,
-
-    private readonly carModelProvider: CarModelProvider,
   ) {}
 
   async create(createCarModelDto: CreateCarModelDto) {
-    return this.carModelProvider.create(createCarModelDto);
+    try {
+      const newCarModel = this.carModelRepository.create({
+        model: createCarModelDto.model,
+      });
+
+      return await this.carModelRepository.save(newCarModel);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new BadRequestException(error || 'Failed to create car model.');
+    }
   }
 
   async getAll() {

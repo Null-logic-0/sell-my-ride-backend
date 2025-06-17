@@ -21,7 +21,6 @@ import { EngineCapacity } from './enums/engine-capacity.enum';
 import { CarColor } from './enums/car-color.enum';
 import { CabinMaterial } from './enums/cabin-material.enum';
 import { CabinColor } from './enums/cabin-color.enum';
-import { OwnerStatus } from './enums/owner-status.enum';
 import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
 import { CarModel } from 'src/car-model/car-model.entity';
 
@@ -168,9 +167,6 @@ export class CarList {
     default: false,
   })
   isSold: boolean;
-
-  @Column({ type: 'enum', enum: OwnerStatus, default: OwnerStatus.OWNER })
-  ownerStatus: OwnerStatus;
 
   @ManyToOne(() => User, (user) => user.carLists, { eager: true })
   owner: User;

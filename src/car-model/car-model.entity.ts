@@ -1,5 +1,4 @@
-import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class CarModel {
@@ -13,10 +12,4 @@ export class CarModel {
     unique: true,
   })
   model: string;
-
-  @ManyToOne(() => Manufacturer, (manufacturer) => manufacturer.models, {
-    nullable: false,
-    eager: true,
-  })
-  manufacturer: Manufacturer;
 }
