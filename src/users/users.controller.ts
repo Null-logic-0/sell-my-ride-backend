@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UpdateUserRoleDto } from './dtos/update-user-role.dto';
@@ -8,6 +17,7 @@ import { Role } from 'src/auth/enums/role.enum';
 import { GetActiveUser } from 'src/auth/decorators/getActiveUser';
 import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 import { UpdateMeDto } from './dtos/update-me.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UsersController {
@@ -66,14 +76,16 @@ export class UsersController {
   }
 
   @Patch('me/update-profile')
+  @UseInterceptors(FileInterceptor('profileImage'))
   @ApiOperation({
     summary: 'Update current logged-in user profile.',
   })
   updateMe(
     @GetActiveUser() user: ActiveUserData,
     @Body() updateMeDto: UpdateMeDto,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.usersService.updateMe(user.sub, updateMeDto);
+    return this.usersService.updateMe(user.sub, updateMeDto, file);
   }
 
   @Delete('me/delete-account')

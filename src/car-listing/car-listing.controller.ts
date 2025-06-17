@@ -6,6 +6,8 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CarListingService } from './car-listing.service';
 import { ApiOperation } from '@nestjs/swagger';
@@ -15,6 +17,7 @@ import { ActiveUser } from 'src/auth/decorators/active-user.decoretor';
 import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('car-listing')
 export class CarListingController {
@@ -30,10 +33,12 @@ export class CarListingController {
   }
 
   @Post()
+  @UseInterceptors(FilesInterceptor('photos', 10))
   @ApiOperation({
     summary: 'Create car listing',
   })
   async createCarListing(
+    @UploadedFiles() files: Express.Multer.File[],
     @Body() createCarListingDto: CreateCarListDto,
     @ActiveUser() user: ActiveUserData,
   ) {
@@ -42,6 +47,7 @@ export class CarListingController {
       createCarListingDto.modelId,
       createCarListingDto.manufacturerId,
       user,
+      files,
     );
   }
 
@@ -55,14 +61,16 @@ export class CarListingController {
   }
 
   @Patch('/:id')
+  @UseInterceptors(FilesInterceptor('photos', 10))
   @ApiOperation({
     summary: 'Update single car list',
   })
   async updateSingleCarList(
+    @UploadedFiles() files: Express.Multer.File[],
     @Param('id') id: number,
     @Body() updateCarListingDto: UpdateCarListingDto,
   ) {
-    return this.carListingService.update(id, updateCarListingDto);
+    return this.carListingService.update(id, updateCarListingDto, files);
   }
 
   @Delete('/:id')

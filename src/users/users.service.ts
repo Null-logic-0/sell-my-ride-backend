@@ -10,6 +10,7 @@ import { User } from './user.entity';
 import { Not, Repository } from 'typeorm';
 import { FindOneUserByEmailProvider } from './providers/find-one-user-by-email.provider';
 import { Role } from 'src/auth/enums/role.enum';
+import { UpdateUserProvider } from './providers/update-user.provider';
 
 @Injectable()
 export class UsersService {
@@ -17,6 +18,8 @@ export class UsersService {
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
 
     private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider,
+
+    private readonly updateUserProvider: UpdateUserProvider,
   ) {}
 
   async getAllUsers(currentUserId: number) {
@@ -78,32 +81,12 @@ export class UsersService {
     }
   }
 
-  async updateMe(userId: number, attrs: Partial<User>) {
-    try {
-      const user = await this.usersRepository.findOneBy({
-        id: userId,
-      });
-      if (!user) {
-        throw new UnauthorizedException(
-          'You are not logged in! Please login again.',
-        );
-      }
-      if ('email' in attrs || 'password' in attrs) {
-        throw new NotAcceptableException(
-          'You cannot update email, password, or role here.',
-        );
-      }
-      Object.assign(user, attrs);
-      return this.usersRepository.save(user);
-    } catch (error) {
-      if (
-        error instanceof UnauthorizedException ||
-        error instanceof NotAcceptableException
-      ) {
-        throw error;
-      }
-      throw new BadRequestException(error || 'Invalid update');
-    }
+  async updateMe(
+    userId: number,
+    attrs: Partial<User>,
+    file?: Express.Multer.File,
+  ) {
+    return this.updateUserProvider.update(userId, attrs, file);
   }
 
   async removeUser(id: number) {
