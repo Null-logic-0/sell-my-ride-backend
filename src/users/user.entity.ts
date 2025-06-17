@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { Role } from 'src/auth/enums/role.enum';
 import { CarList } from 'src/car-listing/car-listing.entity';
 import {
   Column,
@@ -36,16 +37,26 @@ export class User {
   })
   email: string;
 
+  @Exclude()
   @Column({
     type: 'varchar',
     length: 96,
     nullable: true,
   })
-  @Exclude()
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.User,
+  })
+  role: Role;
 
   @OneToMany(() => CarList, (carList) => carList.owner)
   carLists?: CarList[];
+
+  @Column({ default: 0 })
+  tokenVersion: number;
 
   @CreateDateColumn()
   createdAt: Date;

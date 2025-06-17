@@ -36,6 +36,8 @@ export class GenerateTokensProvider {
         this.jwtConfiguration.accessTokenTtl,
         {
           email: user.email,
+          role: user.role,
+          tokenVersion: user.tokenVersion,
         },
       ),
 

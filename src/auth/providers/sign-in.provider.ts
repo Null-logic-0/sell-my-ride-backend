@@ -38,6 +38,11 @@ export class SignInProvider {
       throw new UnauthorizedException('Invalid password');
     }
 
-    return await this.generateTokensProvider.generateToken(user);
+    const tokens = await this.generateTokensProvider.generateToken(user);
+
+    return {
+      tokens,
+      user,
+    };
   }
 }

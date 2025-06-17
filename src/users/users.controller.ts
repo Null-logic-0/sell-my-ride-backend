@@ -1,22 +1,22 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dtos/create-user.dto';
-import { UpdateUserDto } from './dtos/update-user.dto';
+import { UpdateUserRoleDto } from './dtos/update-user-role.dto';
+
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/enums/role.enum';
+import { GetActiveUser } from 'src/auth/decorators/getActiveUser';
+import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
+import { UpdateMeDto } from './dtos/update-me.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  // Admin and Dealer Routes
+
   @Get()
+  @Roles(Role.Admin, Role.Dealer)
   @ApiOperation({
     summary: 'Fetch all users.',
   })
@@ -24,23 +24,12 @@ export class UsersController {
     status: 200,
     description: 'Users fetched successfully!',
   })
-  getAllUsers() {
-    return this.usersService.getAllUsers();
-  }
-
-  @Post()
-  @ApiOperation({
-    summary: 'Create new user.',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'User created successfully!',
-  })
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
+  getAllUsers(@GetActiveUser() user: ActiveUserData) {
+    return this.usersService.getAllUsers(user.sub);
   }
 
   @Get('/:id')
+  @Roles(Role.Admin, Role.Dealer)
   @ApiOperation({
     summary: 'Fetch single user.',
   })
@@ -49,18 +38,49 @@ export class UsersController {
   }
 
   @Patch('/:id')
+  @Roles(Role.Admin)
   @ApiOperation({
-    summary: 'Update  single user.',
+    summary: 'Update any user role by admin.',
   })
-  updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.updateUser(id, updateUserDto);
+  updateUserRole(
+    @Param('id') id: number,
+    @Body() updateUserRoleDto: UpdateUserRoleDto,
+  ) {
+    return this.usersService.updateUserRole(id, updateUserRoleDto);
   }
 
   @Delete('/:id')
+  @Roles(Role.Admin)
   @ApiOperation({
-    summary: 'Delete  single user.',
+    summary: 'Delete any user by admin.',
   })
   deleteUser(@Param('id') id: number) {
     return this.usersService.removeUser(id);
+  }
+
+  // Current Logged-in User Routes
+
+  @Get('me/profile')
+  getCurrentUser(@GetActiveUser() user: ActiveUserData) {
+    return this.usersService.getSingleUser(user.sub);
+  }
+
+  @Patch('me/update-profile')
+  @ApiOperation({
+    summary: 'Update current logged-in user profile.',
+  })
+  updateMe(
+    @GetActiveUser() user: ActiveUserData,
+    @Body() updateMeDto: UpdateMeDto,
+  ) {
+    return this.usersService.updateMe(user.sub, updateMeDto);
+  }
+
+  @Delete('me/delete-account')
+  @ApiOperation({
+    summary: 'Delete current logged-in user account.',
+  })
+  deleteAccount(@GetActiveUser() user: ActiveUserData) {
+    return this.usersService.deleteAccount(user.sub);
   }
 }

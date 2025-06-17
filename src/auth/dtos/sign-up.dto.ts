@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -9,10 +10,12 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Role } from 'src/auth/enums/role.enum';
+import { Match } from '../decorators/match.decorator';
 
-export class CreateUserDto {
+export class SignUpDto {
   @ApiProperty({
-    example: 'userName: "John Doe"',
+    example: 'John Doe',
   })
   @IsString()
   @IsNotEmpty()
@@ -21,7 +24,7 @@ export class CreateUserDto {
   userName: string;
 
   @ApiProperty({
-    example: 'email: "john@exampe.com"',
+    example: 'john@exampe.com',
   })
   @IsEmail()
   @IsNotEmpty()
@@ -40,7 +43,7 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'Users password',
-    example: 'password: "John1234$"',
+    example: 'John1234$',
   })
   @IsString()
   @IsNotEmpty()
@@ -51,4 +54,19 @@ export class CreateUserDto {
       'Password must contain at least one special character and be 6+ characters long',
   })
   password: string;
+
+  @ApiProperty({
+    description: 'Confirm password',
+    example: 'John1234$',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  @MaxLength(96)
+  @Match('password', { message: 'Passwords do not match' })
+  confirmPassword: string;
+
+  @IsOptional()
+  @IsEnum(Role)
+  readonly role?: Role;
 }

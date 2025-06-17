@@ -13,6 +13,8 @@ import { CreateCarListDto } from './dtos/create-car-listing.dto';
 import { UpdateCarListingDto } from './dtos/update-car-listing.dto';
 import { ActiveUser } from 'src/auth/decorators/active-user.decoretor';
 import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { AuthType } from 'src/auth/enums/auth-type.enum';
 
 @Controller('car-listing')
 export class CarListingController {
@@ -22,6 +24,7 @@ export class CarListingController {
   @ApiOperation({
     summary: 'Fetch all cars',
   })
+  @Auth(AuthType.None)
   async getAllCarLists() {
     return this.carListingService.getAll();
   }
@@ -46,6 +49,7 @@ export class CarListingController {
   @ApiOperation({
     summary: 'Fetch single car list',
   })
+  @Auth(AuthType.None)
   async getSingleCarList(@Param('id') id: number) {
     return this.carListingService.getOne(id);
   }
