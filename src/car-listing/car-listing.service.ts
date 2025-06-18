@@ -134,6 +134,9 @@ export class CarListingService {
       if (!car) {
         throw new NotFoundException('Car list not found');
       }
+
+      car.viewsCount += 1;
+      await this.carListRepository.save(car);
       return car;
     } catch (error) {
       if (error instanceof NotFoundException) {
