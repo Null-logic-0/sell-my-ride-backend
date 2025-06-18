@@ -27,7 +27,9 @@ export class CarModelService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      throw new BadRequestException(error || 'Failed to create car model.');
+      throw new BadRequestException(
+        error || error.message || 'Failed to create car model.',
+      );
     }
   }
 
@@ -35,7 +37,7 @@ export class CarModelService {
     try {
       return await this.carModelRepository.find();
     } catch (error) {
-      throw new BadRequestException(error);
+      throw new BadRequestException(error.message || error);
     }
   }
 
@@ -49,7 +51,10 @@ export class CarModelService {
       Object.assign(carModel, attrs);
       return this.carModelRepository.save(carModel);
     } catch (error) {
-      throw new BadRequestException(error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new BadRequestException(error.message || error);
     }
   }
 
@@ -69,7 +74,7 @@ export class CarModelService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      throw new BadRequestException(error);
+      throw new BadRequestException(error.message || error);
     }
   }
 }

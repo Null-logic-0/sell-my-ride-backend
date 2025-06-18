@@ -8,14 +8,14 @@ import { CarList } from './car-listing.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCarListDto } from './dtos/create-car-listing.dto';
 import { CreateCarListingProvider } from './providers/create-car-listing.provider';
-import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
+import { ActiveUserData } from '../auth/interfaces/active-user.interface';
 import { UpdateCarListingProvider } from './providers/update-car-listing.provider';
 import { PriceRange } from './enums/price-range.enum';
 import { getPriceBounds } from './utils/price.utils';
 import { CarBodyType } from './enums/car-body-types.enum';
 import { CarStatus } from './enums/car-status.enum';
-import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
-import { PaginationQueryDto } from 'src/common/pagination/dtos/pagination-query.dto';
+import { PaginationProvider } from '../common/pagination/providers/pagination.provider';
+import { PaginationQueryDto } from '../common/pagination/dtos/pagination-query.dto';
 
 @Injectable()
 export class CarListingService {

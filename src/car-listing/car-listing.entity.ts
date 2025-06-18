@@ -1,4 +1,4 @@
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -21,8 +21,8 @@ import { EngineCapacity } from './enums/engine-capacity.enum';
 import { CarColor } from './enums/car-color.enum';
 import { CabinMaterial } from './enums/cabin-material.enum';
 import { CabinColor } from './enums/cabin-color.enum';
-import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
-import { CarModel } from 'src/car-model/car-model.entity';
+import { Manufacturer } from '../manufacturer/manufacturer.entity';
+import { CarModel } from '../car-model/car-model.entity';
 
 @Entity()
 export class CarList {

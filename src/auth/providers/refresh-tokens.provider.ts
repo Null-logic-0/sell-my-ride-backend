@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { RefreshTokenDto } from '../dtos/refresh-token.dto';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../../users/users.service';
 import jwtConfig from '../config/jwt.config';
 import { ConfigType } from '@nestjs/config';
 import { GenerateTokensProvider } from './generate-tokens.provider';

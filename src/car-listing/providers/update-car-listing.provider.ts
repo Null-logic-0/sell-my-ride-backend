@@ -4,12 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../../users/users.service';
 import { CarList } from '../car-listing.entity';
 import { Repository } from 'typeorm';
-import { CarModel } from 'src/car-model/car-model.entity';
-import { Manufacturer } from 'src/manufacturer/manufacturer.entity';
-import { S3Service } from 'src/uploads/s3.service';
+import { CarModel } from '../../car-model/car-model.entity';
+import { Manufacturer } from '../../manufacturer/manufacturer.entity';
+import { S3Service } from '../../uploads/s3.service';
 
 @Injectable()
 export class UpdateCarListingProvider {

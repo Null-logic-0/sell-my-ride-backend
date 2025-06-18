@@ -11,10 +11,10 @@ import { ManufacturerService } from './manufacturer.service';
 import { ApiOperation } from '@nestjs/swagger';
 import { CreateManufacturerDto } from './dtos/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dtos/update-manufacturer.dto';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { AuthType } from 'src/auth/enums/auth-type.enum';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { Role } from 'src/auth/enums/role.enum';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { AuthType } from '../auth/enums/auth-type.enum';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/enums/role.enum';
 
 @Controller('manufacturer')
 export class ManufacturerController {

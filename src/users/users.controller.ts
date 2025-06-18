@@ -12,10 +12,10 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UpdateUserRoleDto } from './dtos/update-user-role.dto';
 
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { Role } from 'src/auth/enums/role.enum';
-import { GetActiveUser } from 'src/auth/decorators/getActiveUser';
-import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/enums/role.enum';
+import { GetActiveUser } from '../auth/decorators/getActiveUser';
+import { ActiveUserData } from '../auth/interfaces/active-user.interface';
 import { UpdateMeDto } from './dtos/update-me.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 

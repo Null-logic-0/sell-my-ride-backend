@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { S3Service } from 'src/uploads/s3.service';
+import { S3Service } from '../../uploads/s3.service';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 
