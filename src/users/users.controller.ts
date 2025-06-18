@@ -80,6 +80,9 @@ export class UsersController {
   // Current Logged-in User Routes
 
   @Get('me/profile')
+  @ApiOperation({
+    summary: 'Fetch current logged-in user profile.',
+  })
   getCurrentUser(@GetActiveUser() user: ActiveUserData) {
     return this.usersService.getSingleUser(user.sub);
   }
