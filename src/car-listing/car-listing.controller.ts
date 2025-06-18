@@ -22,6 +22,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { PriceRange } from './enums/price-range.enum';
 import { CarBodyType } from './enums/car-body-types.enum';
 import { CarStatus } from './enums/car-status.enum';
+import { PaginationQueryDto } from 'src/common/pagination/dtos/pagination-query.dto';
 
 @Controller('car-listing')
 export class CarListingController {
@@ -41,17 +42,21 @@ export class CarListingController {
     @Query('bodyType') bodyType?: CarBodyType,
     @Query('carStatus') carStatus?: CarStatus,
     @Query('inStock') inStock?: boolean,
+    @Query() carListPagination?: PaginationQueryDto,
   ) {
-    return this.carListingService.getAll({
-      year,
-      priceRange,
-      model,
-      manufacturer,
-      city,
-      bodyType,
-      carStatus,
-      inStock,
-    });
+    return this.carListingService.getAll(
+      {
+        year,
+        priceRange,
+        model,
+        manufacturer,
+        city,
+        bodyType,
+        carStatus,
+        inStock,
+      },
+      carListPagination,
+    );
   }
 
   @Post()

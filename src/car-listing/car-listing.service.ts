@@ -14,6 +14,8 @@ import { PriceRange } from './enums/price-range.enum';
 import { getPriceBounds } from './utils/price.utils';
 import { CarBodyType } from './enums/car-body-types.enum';
 import { CarStatus } from './enums/car-status.enum';
+import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
+import { PaginationQueryDto } from 'src/common/pagination/dtos/pagination-query.dto';
 
 @Injectable()
 export class CarListingService {
@@ -24,6 +26,8 @@ export class CarListingService {
     private readonly createCarListingProvider: CreateCarListingProvider,
 
     private readonly updateCarListingProvider: UpdateCarListingProvider,
+
+    private readonly paginationProvider: PaginationProvider,
   ) {}
 
   async create(
@@ -42,16 +46,19 @@ export class CarListingService {
     );
   }
 
-  async getAll(filters: {
-    year?: number;
-    priceRange?: PriceRange;
-    model?: string;
-    manufacturer?: string;
-    city?: string;
-    bodyType?: CarBodyType;
-    carStatus?: CarStatus;
-    inStock?: boolean;
-  }) {
+  async getAll(
+    filters: {
+      year?: number;
+      priceRange?: PriceRange;
+      model?: string;
+      manufacturer?: string;
+      city?: string;
+      bodyType?: CarBodyType;
+      carStatus?: CarStatus;
+      inStock?: boolean;
+    },
+    paginateCarList?: PaginationQueryDto,
+  ) {
     try {
       const query = this.carListRepository
         .createQueryBuilder('car')
@@ -108,7 +115,14 @@ export class CarListingService {
         const inStockBool = filters.inStock === true;
         query.andWhere('car.inStock = :inStock', { inStock: inStockBool });
       }
-      return await query.getMany();
+
+      return await this.paginationProvider.paginateQuery(
+        {
+          limit: paginateCarList?.limit,
+          page: paginateCarList?.page,
+        },
+        this.carListRepository,
+      );
     } catch (error) {
       throw new BadRequestException(error.message || error);
     }
