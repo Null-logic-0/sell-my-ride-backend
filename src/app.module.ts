@@ -20,6 +20,7 @@ import { AcessTokenGuard } from './auth/guards/acess-token/acess-token.guard';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import { RolesGuard } from './auth/guards/authentication/roles.guard';
 import { S3Module } from './uploads/s3.module';
+import { PaginationModule } from './common/pagination/pagination.module';
 
 const ENV = process.env.NODE_ENV || 'development';
 
@@ -63,6 +64,8 @@ const ENV = process.env.NODE_ENV || 'development';
     AuthModule,
 
     S3Module,
+
+    PaginationModule,
   ],
   controllers: [AppController],
   providers: [
