@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
-import { Role } from 'src/auth/enums/role.enum';
-import { CarList } from 'src/car-listing/car-listing.entity';
+import { Role } from '../auth/enums/role.enum';
+import { CarList } from '../car-listing/car-listing.entity';
 import {
   Column,
   CreateDateColumn,

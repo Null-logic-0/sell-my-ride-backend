@@ -6,11 +6,11 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AcessTokenGuard } from '../acess-token/acess-token.guard';
-import { AuthType } from 'src/auth/enums/auth-type.enum';
-import { AUTH_TYPE_KEY } from 'src/auth/constants/auth.constants';
+import { AuthType } from '../../../auth/enums/auth-type.enum';
+import { AUTH_TYPE_KEY } from '../../../auth/constants/auth.constants';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from 'src/users/user.entity';
+import { User } from '../../../users/user.entity';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {

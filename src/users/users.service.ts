@@ -6,11 +6,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './user.entity';
 import { Not, Repository } from 'typeorm';
 import { FindOneUserByEmailProvider } from './providers/find-one-user-by-email.provider';
-import { Role } from 'src/auth/enums/role.enum';
+import { Role } from '../auth/enums/role.enum';
 import { UpdateUserProvider } from './providers/update-user.provider';
+import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {

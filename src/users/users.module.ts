@@ -3,10 +3,10 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 import { FindOneUserByEmailProvider } from './providers/find-one-user-by-email.provider';
 import { UpdateUserProvider } from './providers/update-user.provider';
-import { S3Module } from 'src/uploads/s3.module';
+import { S3Module } from '../uploads/s3.module';
 
 @Module({
   imports: [

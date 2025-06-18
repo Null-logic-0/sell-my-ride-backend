@@ -14,15 +14,15 @@ import { CarListingService } from './car-listing.service';
 import { ApiOperation } from '@nestjs/swagger';
 import { CreateCarListDto } from './dtos/create-car-listing.dto';
 import { UpdateCarListingDto } from './dtos/update-car-listing.dto';
-import { ActiveUser } from 'src/auth/decorators/active-user.decoretor';
-import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { AuthType } from 'src/auth/enums/auth-type.enum';
+import { ActiveUser } from '../auth/decorators/active-user.decoretor';
+import { ActiveUserData } from '../auth/interfaces/active-user.interface';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { AuthType } from '../auth/enums/auth-type.enum';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { PriceRange } from './enums/price-range.enum';
 import { CarBodyType } from './enums/car-body-types.enum';
 import { CarStatus } from './enums/car-status.enum';
-import { PaginationQueryDto } from 'src/common/pagination/dtos/pagination-query.dto';
+import { PaginationQueryDto } from '../common/pagination/dtos/pagination-query.dto';
 
 @Controller('car-listing')
 export class CarListingController {

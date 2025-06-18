@@ -11,10 +11,10 @@ import { ApiOperation } from '@nestjs/swagger';
 import { CarModelService } from './car-model.service';
 import { CreateCarModelDto } from './dtos/create-car-model.dto';
 import { UpdateCarModelDto } from './dtos/update-car-model.dto';
-import { Auth } from 'src/auth/decorators/auth.decorator';
-import { AuthType } from 'src/auth/enums/auth-type.enum';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { Role } from 'src/auth/enums/role.enum';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { AuthType } from '../auth/enums/auth-type.enum';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/enums/role.enum';
 
 @Controller('car-model')
 export class CarModelController {
