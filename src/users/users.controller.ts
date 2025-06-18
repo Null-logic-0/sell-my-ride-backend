@@ -59,6 +59,15 @@ export class UsersController {
     return this.usersService.updateUserRole(id, updateUserRoleDto);
   }
 
+  @Patch('toggleBlock/:id')
+  @Roles(Role.Admin)
+  @ApiOperation({
+    summary: 'Block any user by admin',
+  })
+  blockUser(@Param('id') id: number) {
+    return this.usersService.toggleBlockUser(id);
+  }
+
   @Delete('/:id')
   @Roles(Role.Admin)
   @ApiOperation({

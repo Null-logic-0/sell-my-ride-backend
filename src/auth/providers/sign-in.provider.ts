@@ -38,6 +38,12 @@ export class SignInProvider {
       throw new UnauthorizedException('Invalid password');
     }
 
+    if (user.isBlocked) {
+      throw new UnauthorizedException(
+        'Your account has been blocked.Contact support.',
+      );
+    }
+
     const tokens = await this.generateTokensProvider.generateToken(user);
 
     return {
