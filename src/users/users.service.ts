@@ -107,6 +107,7 @@ export class UsersService {
       throw new BadRequestException(error);
     }
   }
+
   async deleteAccount(id: number) {
     try {
       const user = await this.usersRepository.findOneBy({ id });
@@ -122,6 +123,29 @@ export class UsersService {
       };
     } catch (error) {
       if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      throw new BadRequestException(error);
+    }
+  }
+
+  async toggleBlockUser(id: number) {
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+      if (!user) {
+        throw new NotFoundException('User not found with this ID!');
+      }
+      user.isBlocked = !user.isBlocked;
+      await this.usersRepository.save(user);
+
+      return {
+        message: user.isBlocked
+          ? 'User successfully blocked.'
+          : 'User successfully unblocked.',
+        blocked: user.isBlocked,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
         throw error;
       }
       throw new BadRequestException(error);

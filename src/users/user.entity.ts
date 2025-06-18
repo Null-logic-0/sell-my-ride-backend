@@ -52,6 +52,12 @@ export class User {
   })
   role: Role;
 
+  @Column({
+    type: 'boolean',
+    default: false,
+  })
+  isBlocked: boolean;
+
   @OneToMany(() => CarList, (carList) => carList.owner)
   carLists?: CarList[];
 
