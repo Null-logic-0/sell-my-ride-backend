@@ -7,24 +7,30 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Manufacturer } from './manufacturer.entity';
 import { CreateManufacturerDto } from './dtos/create-manufacturer.dto';
+import { UpdateManufacturerProvider } from './providers/update-manufacturer.provider';
+import { CreateManufacturerProvider } from './providers/create-manufacturer.provider';
 
 @Injectable()
 export class ManufacturerService {
   constructor(
     @InjectRepository(Manufacturer)
     private readonly manufacturerRepository: Repository<Manufacturer>,
+
+    private readonly updateManufacturerProvider: UpdateManufacturerProvider,
+
+    private readonly createManufacturerProvider: CreateManufacturerProvider,
   ) {}
 
-  async create(createManufacturerDto: CreateManufacturerDto) {
-    try {
-      const newManufacturer = this.manufacturerRepository.create(
-        createManufacturerDto,
-      );
-
-      return await this.manufacturerRepository.save(newManufacturer);
-    } catch (error) {
-      throw new BadRequestException(error);
-    }
+  async create(
+    createManufacturerDto: CreateManufacturerDto,
+    userId: number,
+    file: Express.Multer.File,
+  ) {
+    return this.createManufacturerProvider.create(
+      createManufacturerDto,
+      userId,
+      file,
+    );
   }
 
   async getAll() {
@@ -35,21 +41,13 @@ export class ManufacturerService {
     }
   }
 
-  async update(id: number, attrs: Partial<Manufacturer>) {
-    try {
-      const manufacturer = await this.manufacturerRepository.findOneBy({ id });
-      if (!manufacturer) {
-        throw new NotFoundException('Manufacturer not found with this ID!');
-      }
-
-      Object.assign(manufacturer, attrs);
-      return this.manufacturerRepository.save(manufacturer);
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new BadRequestException(error);
-    }
+  async update(
+    id: number,
+    userId: number,
+    attrs: Partial<Manufacturer>,
+    file?: Express.Multer.File,
+  ) {
+    return this.updateManufacturerProvider.update(id, userId, attrs, file);
   }
 
   async delete(id: number) {

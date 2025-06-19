@@ -6,6 +6,8 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ManufacturerService } from './manufacturer.service';
 import { ApiOperation } from '@nestjs/swagger';
@@ -15,6 +17,9 @@ import { Auth } from '../auth/decorators/auth.decorator';
 import { AuthType } from '../auth/enums/auth-type.enum';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../auth/enums/role.enum';
+import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
+import { GetActiveUser } from 'src/auth/decorators/getActiveUser';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('manufacturer')
 export class ManufacturerController {
@@ -34,8 +39,17 @@ export class ManufacturerController {
     summary: 'Create new manufacturer.',
   })
   @Roles(Role.Admin, Role.Dealer)
-  createManufacturer(@Body() createManufacturerDto: CreateManufacturerDto) {
-    return this.manufacturerService.create(createManufacturerDto);
+  @UseInterceptors(FileInterceptor('image'))
+  createManufacturer(
+    @Body() createManufacturerDto: CreateManufacturerDto,
+    @GetActiveUser() user: ActiveUserData,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.manufacturerService.create(
+      createManufacturerDto,
+      user.sub,
+      file,
+    );
   }
 
   @Patch('/:id')
@@ -43,11 +57,19 @@ export class ManufacturerController {
     summary: 'Update manufacturer.',
   })
   @Roles(Role.Admin, Role.Dealer)
+  @UseInterceptors(FileInterceptor('image'))
   updateManufacturer(
     @Param('id') id: number,
     @Body() updateManufacturerDto: UpdateManufacturerDto,
+    @GetActiveUser() user: ActiveUserData,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.manufacturerService.update(id, updateManufacturerDto);
+    return this.manufacturerService.update(
+      id,
+      user.sub,
+      updateManufacturerDto,
+      file,
+    );
   }
 
   @Delete('/:id')

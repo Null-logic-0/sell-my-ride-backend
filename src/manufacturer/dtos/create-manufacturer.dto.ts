@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUrl,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateManufacturerDto {
   @ApiProperty({
@@ -12,4 +19,13 @@ export class CreateManufacturerDto {
   @MaxLength(96)
   @IsNotEmpty()
   make: string;
+
+  @ApiProperty({
+    example: 'http://example.com/manufacturer1.png',
+  })
+  @IsString()
+  @MaxLength(1024)
+  @IsUrl()
+  @IsOptional()
+  image?: string;
 }

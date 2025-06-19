@@ -56,4 +56,11 @@ export class S3Service {
     );
     return Promise.all(uploadPromises);
   }
+
+  async uploadMakeImage(
+    file: Express.Multer.File,
+    userId: number,
+  ): Promise<string> {
+    return this.uploadFileToS3('manufacturer-images', file, userId);
+  }
 }

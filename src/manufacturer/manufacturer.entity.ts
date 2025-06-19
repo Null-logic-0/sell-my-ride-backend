@@ -10,4 +10,11 @@ export class Manufacturer {
     nullable: false,
   })
   make: string;
+
+  @Column({
+    type: 'varchar',
+    length: 1024,
+    nullable: true,
+  })
+  image?: string;
 }
