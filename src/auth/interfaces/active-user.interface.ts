@@ -5,4 +5,5 @@ export interface ActiveUserData {
   email: string;
   role: Role;
   tokenVersion: number;
+  googleId?: string;
 }

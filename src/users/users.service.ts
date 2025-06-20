@@ -11,6 +11,9 @@ import { FindOneUserByEmailProvider } from './providers/find-one-user-by-email.p
 import { Role } from '../auth/enums/role.enum';
 import { UpdateUserProvider } from './providers/update-user.provider';
 import { User } from './user.entity';
+import { FindOneByGoogleIdProvider } from './providers/find-one-by-google-id.provider';
+import { GoogleUser } from 'src/interfaces/google-user.interface';
+import { CreateGoogleUserProvider } from './providers/create-google-user.provider';
 
 @Injectable()
 export class UsersService {
@@ -20,6 +23,10 @@ export class UsersService {
     private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider,
 
     private readonly updateUserProvider: UpdateUserProvider,
+
+    private readonly findOneByGoogleIdProvider: FindOneByGoogleIdProvider,
+
+    private readonly createGoogleUserProvider: CreateGoogleUserProvider,
   ) {}
 
   async getAllUsers(currentUserId: number) {
@@ -34,13 +41,22 @@ export class UsersService {
     }
   }
 
-  async getSingleUser(id: number) {
+  async getSingleUser(identifier: number | string) {
+    const isGoogleId = typeof identifier === 'string';
+
     try {
-      const user = await this.usersRepository.findOneBy({ id });
+      const user = await this.usersRepository.findOne({
+        where: isGoogleId ? { googleId: identifier } : { id: identifier },
+      });
 
       if (!user) {
-        throw new NotFoundException('User not found with this ID!');
+        throw new NotFoundException(
+          isGoogleId
+            ? 'User not found with this Google ID!'
+            : 'User not found with this ID!',
+        );
       }
+
       return user;
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -154,5 +170,15 @@ export class UsersService {
 
   public async findOneByEmail(email: string) {
     return await this.findOneUserByEmailProvider.findOneByEmail(email);
+  }
+
+  async findeOneByGoogleId(googleId: string) {
+    return this.usersRepository.findOne({
+      where: { googleId },
+    });
+  }
+
+  async createGoogleUser(googleUser: GoogleUser) {
+    return await this.createGoogleUserProvider.createGoogleUser(googleUser);
   }
 }

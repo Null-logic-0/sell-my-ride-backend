@@ -13,6 +13,8 @@ import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
 import { SignUpProvider } from './providers/sign-up.provider';
 import { UpdatePasswordProvider } from './providers/update-password.provider';
 import { SignOutProvider } from './providers/sign-out.provider';
+import { GoogleAuthenticationController } from './social/google-authentication.controller';
+import { GoogleAuthenticationService } from './social/google-authentication.service';
 
 @Module({
   imports: [
@@ -32,8 +34,9 @@ import { SignOutProvider } from './providers/sign-out.provider';
     SignUpProvider,
     UpdatePasswordProvider,
     SignOutProvider,
+    GoogleAuthenticationService,
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, GoogleAuthenticationController],
   exports: [AuthService, HashingProvider],
 })
 export class AuthModule {}
