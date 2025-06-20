@@ -43,7 +43,14 @@ export class User {
     length: 96,
     nullable: true,
   })
-  password: string;
+  password?: string;
+
+  @Exclude()
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  googleId?: string;
 
   @Column({
     type: 'enum',

@@ -29,7 +29,7 @@ export class UpdatePasswordProvider {
 
     const isOldPasswordValid = await this.hashingProvider.comparePassword(
       updatePasswordDto.currentPassword,
-      user.password,
+      user.password!,
     );
 
     if (!isOldPasswordValid) {

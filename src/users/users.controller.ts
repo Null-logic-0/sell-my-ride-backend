@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   UploadedFile,
@@ -83,8 +84,16 @@ export class UsersController {
   @ApiOperation({
     summary: 'Fetch current logged-in user profile.',
   })
-  getCurrentUser(@GetActiveUser() user: ActiveUserData) {
-    return this.usersService.getSingleUser(user.sub);
+  async getCurrentUser(@GetActiveUser() user: ActiveUserData) {
+    const foundUser = user.googleId
+      ? await this.usersService.findeOneByGoogleId(user.googleId)
+      : await this.usersService.getSingleUser(user.sub);
+
+    if (!foundUser) {
+      throw new NotFoundException('User not found');
+    }
+
+    return foundUser;
   }
 
   @Patch('me/update-profile')

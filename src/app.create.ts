@@ -13,6 +13,14 @@ export function appCreate(app: INestApplication): void {
     }),
   );
 
+  app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Opener-Policy', 'unsafe-none');
+    res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+
+    next();
+  });
+
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Sell-My-Ride')
     .setDescription('Use The base Api URL as http://localhost:3000')
