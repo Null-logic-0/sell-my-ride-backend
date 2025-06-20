@@ -21,5 +21,11 @@ export function appCreate(app: INestApplication): void {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
+
   SwaggerModule.setup('api', app, document);
+
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  });
 }
