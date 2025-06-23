@@ -5,11 +5,11 @@ import { Role } from '../../auth/enums/role.enum';
 export class UpdateUserRoleDto {
   @ApiProperty({
     example: Role.Dealer,
-  })
-  @IsEnum({
-    description: 'User role',
     enum: Role,
-    example: Role.Dealer,
+    description: 'User role',
+  })
+  @IsEnum(Role, {
+    message: `role must be one of the following values: ${Object.values(Role).join(', ')}`,
   })
   role?: Role;
 }
