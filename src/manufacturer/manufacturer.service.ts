@@ -35,8 +35,27 @@ export class ManufacturerService {
 
   async getAll() {
     try {
-      return await this.manufacturerRepository.find();
+      return await this.manufacturerRepository.find({
+        order: {
+          updatedAt: 'DESC',
+        },
+      });
     } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
+
+  async getOne(id: number) {
+    try {
+      const manufacturer = await this.manufacturerRepository.findOneBy({ id });
+      if (!manufacturer) {
+        throw new NotFoundException('Manufacturer not found with this ID!');
+      }
+      return manufacturer;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException(error);
     }
   }

@@ -35,6 +35,9 @@ export class UsersService {
         where: {
           id: Not(currentUserId),
         },
+        order: {
+          updatedAt: 'DESC',
+        },
       });
     } catch (error) {
       throw new BadRequestException(error);

@@ -52,6 +52,15 @@ export class ManufacturerController {
     );
   }
 
+  @Get('/:id')
+  @ApiOperation({
+    summary: 'Fetch single manufacturer',
+  })
+  @Auth(AuthType.None)
+  getSingleManufacturer(@Param('id') id: number) {
+    return this.manufacturerService.getOne(id);
+  }
+
   @Patch('/:id')
   @ApiOperation({
     summary: 'Update manufacturer.',

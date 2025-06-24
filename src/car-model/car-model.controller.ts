@@ -38,6 +38,15 @@ export class CarModelController {
     return this.carModelService.create(createCarModelDto);
   }
 
+  @Get('/:id')
+  @ApiOperation({
+    summary: 'Fetch single car model',
+  })
+  @Auth(AuthType.None)
+  getOneModel(@Param('id') id: number) {
+    return this.carModelService.getOne(id);
+  }
+
   @Patch('/:id')
   @ApiOperation({
     summary: 'Update car model.',

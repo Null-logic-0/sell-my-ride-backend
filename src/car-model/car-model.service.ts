@@ -35,8 +35,27 @@ export class CarModelService {
 
   async getAll() {
     try {
-      return await this.carModelRepository.find();
+      return await this.carModelRepository.find({
+        order: {
+          updatedAt: 'DESC',
+        },
+      });
     } catch (error) {
+      throw new BadRequestException(error.message || error);
+    }
+  }
+
+  async getOne(id: number) {
+    try {
+      const model = await this.carModelRepository.findOneBy({ id });
+      if (!model) {
+        throw new NotFoundException('Car model not found with this ID!');
+      }
+      return model;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException(error.message || error);
     }
   }
