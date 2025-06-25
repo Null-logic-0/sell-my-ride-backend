@@ -77,7 +77,7 @@ const ENV = process.env.NODE_ENV || 'development';
     AcessTokenGuard,
     {
       provide: APP_GUARD,
-      useClass: RolesGuard, // Then check roles
+      useClass: RolesGuard,
     },
     {
       provide: APP_INTERCEPTOR,

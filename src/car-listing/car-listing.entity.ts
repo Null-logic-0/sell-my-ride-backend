@@ -64,7 +64,7 @@ export class CarList {
     type: 'boolean',
     default: false,
   })
-  turbo: boolean;
+  turbo?: boolean;
 
   @Column({ type: 'int' })
   mileage: number;
@@ -105,7 +105,7 @@ export class CarList {
   @Column({
     type: 'boolean',
   })
-  catalyst: boolean;
+  catalyst?: boolean;
 
   @Column({ type: 'enum', enum: Airbag, default: Airbag.NONE })
   airbag: Airbag;

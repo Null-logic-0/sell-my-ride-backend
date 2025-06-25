@@ -78,7 +78,8 @@ export class CreateCarListDto {
     description: 'Whether the car has a turbo engine',
   })
   @IsBoolean()
-  turbo: boolean;
+  @IsOptional()
+  turbo?: boolean;
 
   @ApiProperty({ example: 85000, description: 'Mileage of the car' })
   @IsInt()
@@ -113,8 +114,8 @@ export class CreateCarListDto {
 
   @ApiProperty({ example: true, description: 'Whether the car has a catalyst' })
   @IsBoolean()
-  @IsNotEmpty()
-  catalyst: boolean;
+  @IsOptional()
+  catalyst?: boolean;
 
   @ApiProperty({
     example: 'FRONT_AND_SIDE',
