@@ -230,5 +230,6 @@ export class CreateCarListDto {
     description: 'Whether the car is available or not',
   })
   @IsBoolean()
-  inStock: boolean;
+  @IsOptional()
+  inStock?: boolean;
 }
