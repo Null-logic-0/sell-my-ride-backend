@@ -10,12 +10,10 @@ import { CreateCarListDto } from './dtos/create-car-listing.dto';
 import { CreateCarListingProvider } from './providers/create-car-listing.provider';
 import { ActiveUserData } from '../auth/interfaces/active-user.interface';
 import { UpdateCarListingProvider } from './providers/update-car-listing.provider';
-import { PriceRange } from './enums/price-range.enum';
 import { getPriceBounds } from './utils/price.utils';
-import { CarBodyType } from './enums/car-body-types.enum';
-import { CarStatus } from './enums/car-status.enum';
 import { PaginationProvider } from '../common/pagination/providers/pagination.provider';
 import { PaginationQueryDto } from '../common/pagination/dtos/pagination-query.dto';
+import { GetAllCarsFilterDto } from './dtos/get-all-car-lisitng.dto';
 
 @Injectable()
 export class CarListingService {
@@ -47,17 +45,8 @@ export class CarListingService {
   }
 
   async getAll(
-    filters: {
-      year?: number;
-      priceRange?: PriceRange;
-      model?: string;
-      manufacturer?: string;
-      city?: string;
-      bodyType?: CarBodyType;
-      carStatus?: CarStatus;
-      inStock?: boolean;
-    },
-    paginateCarList?: PaginationQueryDto,
+    filters: GetAllCarsFilterDto,
+    paginateCarList: PaginationQueryDto,
   ) {
     try {
       const query = this.carListRepository
@@ -121,7 +110,31 @@ export class CarListingService {
           limit: paginateCarList?.limit,
           page: paginateCarList?.page,
         },
-        this.carListRepository,
+        query,
+      );
+    } catch (error) {
+      throw new BadRequestException(error.message || error);
+    }
+  }
+
+  async getAllForUser(
+    activeUser: ActiveUserData,
+    paginateCarList: PaginationQueryDto,
+  ) {
+    try {
+      const query = this.carListRepository
+        .createQueryBuilder('car')
+        .leftJoinAndSelect('car.model', 'model')
+        .leftJoinAndSelect('car.manufacturer', 'manufacturer')
+        .leftJoinAndSelect('car.owner', 'owner')
+        .where('owner.id = :userId', { userId: activeUser.sub });
+
+      return await this.paginationProvider.paginateQuery(
+        {
+          limit: paginateCarList.limit,
+          page: paginateCarList.page,
+        },
+        query,
       );
     } catch (error) {
       throw new BadRequestException(error.message || error);

@@ -19,9 +19,7 @@ import { ActiveUserData } from '../auth/interfaces/active-user.interface';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { AuthType } from '../auth/enums/auth-type.enum';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { PriceRange } from './enums/price-range.enum';
-import { CarBodyType } from './enums/car-body-types.enum';
-import { CarStatus } from './enums/car-status.enum';
+
 import { PaginationQueryDto } from '../common/pagination/dtos/pagination-query.dto';
 
 @Controller('car-listing')
@@ -33,30 +31,20 @@ export class CarListingController {
     summary: 'Fetch all cars',
   })
   @Auth(AuthType.None)
-  async getAllCarLists(
-    @Query('year') year?: number,
-    @Query('priceRange') priceRange?: PriceRange,
-    @Query('model') model?: string,
-    @Query('manufacturer') manufacturer?: string,
-    @Query('city') city?: string,
-    @Query('bodyType') bodyType?: CarBodyType,
-    @Query('carStatus') carStatus?: CarStatus,
-    @Query('inStock') inStock?: boolean,
-    @Query() carListPagination?: PaginationQueryDto,
+  async getAllCarLists(@Query() query: PaginationQueryDto) {
+    const { limit, page, ...filters } = query;
+    return this.carListingService.getAll(filters, { limit, page });
+  }
+
+  @Get('/my-lists')
+  @ApiOperation({
+    summary: 'Fetch all cars for current user',
+  })
+  async getAllCarForUser(
+    @Query() paginateCarList: PaginationQueryDto,
+    @ActiveUser() activeUser: ActiveUserData,
   ) {
-    return this.carListingService.getAll(
-      {
-        year,
-        priceRange,
-        model,
-        manufacturer,
-        city,
-        bodyType,
-        carStatus,
-        inStock,
-      },
-      carListPagination,
-    );
+    return this.carListingService.getAllForUser(activeUser, paginateCarList);
   }
 
   @Post()

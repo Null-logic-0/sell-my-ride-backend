@@ -1,11 +1,15 @@
+import { Type } from 'class-transformer';
 import { IsOptional, IsPositive } from 'class-validator';
+import { GetAllCarsFilterDto } from 'src/car-listing/dtos/get-all-car-lisitng.dto';
 
-export class PaginationQueryDto {
+export class PaginationQueryDto extends GetAllCarsFilterDto {
   @IsOptional()
+  @Type(() => Number)
   @IsPositive()
-  limit?: number = 10;
+  limit?: number;
 
   @IsOptional()
+  @Type(() => Number)
   @IsPositive()
-  page?: number = 1;
+  page?: number;
 }
