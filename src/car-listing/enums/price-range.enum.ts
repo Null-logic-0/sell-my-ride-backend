@@ -1,6 +1,6 @@
 export enum PriceRange {
-  LOW = 'LOW',
-  MID = 'MID',
-  HIGH = 'HIGH',
-  PREMIUM = 'PREMIUM',
+  low = 'low',
+  mid = 'mid',
+  high = 'high',
+  premium = 'premium',
 }
