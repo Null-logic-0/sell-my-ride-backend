@@ -104,6 +104,7 @@ export class CarList {
 
   @Column({
     type: 'boolean',
+    default: false,
   })
   catalyst?: boolean;
 

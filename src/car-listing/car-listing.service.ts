@@ -54,7 +54,6 @@ export class CarListingService {
         .leftJoinAndSelect('car.model', 'model')
         .leftJoinAndSelect('car.manufacturer', 'manufacturer')
         .leftJoinAndSelect('car.owner', 'owner');
-
       if (filters.year) {
         query.andWhere('car.year = :year', { year: filters.year });
       }
@@ -127,7 +126,9 @@ export class CarListingService {
         .leftJoinAndSelect('car.model', 'model')
         .leftJoinAndSelect('car.manufacturer', 'manufacturer')
         .leftJoinAndSelect('car.owner', 'owner')
-        .where('owner.id = :userId', { userId: activeUser.sub });
+        .where('owner.id = :userId', { userId: activeUser.sub })
+        .orderBy('car.updatedAt', 'DESC')
+        .addOrderBy('car.createdAt', 'DESC');
 
       return await this.paginationProvider.paginateQuery(
         {
