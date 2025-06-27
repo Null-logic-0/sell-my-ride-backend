@@ -1,98 +1,108 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+🚗 Sell My Ride — Backend API
+A full-featured backend for a car listing platform, built with NestJS. This project supports user authentication (including Google login), secure media uploads to AWS S3, PostgreSQL integration via TypeORM, and complete API documentation with Swagger.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![NestJS](https://img.shields.io/badge/nestjs-%23E0234E.svg?style=flat&logo=nestjs&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1.svg?style=flat&logo=postgresql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=flat&logo=JSON%20web%20tokens)
+![Swagger](https://img.shields.io/badge/Swagger-85EA2D.svg?style=flat&logo=swagger&logoColor=black)
+![AWS S3](https://img.shields.io/badge/AWS_S3-232F3E.svg?style=flat&logo=amazon-aws&logoColor=white)
+![Google OAuth](https://img.shields.io/badge/Google%20OAuth-4285F4?style=flat&logo=google&logoColor=white)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## 🌐 Live Swagger Docs
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+📖 [`http://localhost:3000/api`](http://localhost:3000/api)
 
-## Project setup
 
-```bash
-$ npm install
-```
 
-## Compile and run the project
+## 🧰 Tech Stack
 
-```bash
-# development
-$ npm run start
+- **Framework**: [NestJS](https://nestjs.com/)
+- **Database**: PostgreSQL + TypeORM
+- **Auth**: JWT + Google OAuth2
+- **File Uploads**: AWS S3 via `aws-sdk`
+- **Docs**: Swagger UI (OpenAPI 3)
 
-# watch mode
-$ npm run start:dev
 
-# production mode
-$ npm run start:prod
-```
 
-## Run tests
+## 🛡️ User Roles & Permissions
 
-```bash
-# unit tests
-$ npm run test
+| Role   | Permissions |
+|--------|-------------|
+| **Admin**  | Full access: manage users, listings, system settings |
+| **Dealer** | Create and manage their own listings |
+| **User**   | Browse listings, contact sellers |
 
-# e2e tests
-$ npm run test:e2e
+All role-based access is enforced with NestJS guards and decorators.
 
-# test coverage
-$ npm run test:cov
-```
 
-## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+📦 Features
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+🔐 Secure JWT-based authentication with access & refresh tokens
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+🆔 Google OAuth login integration
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+🗃️ PostgreSQL database with auto-sync and autoload
 
-## Resources
+☁️ AWS S3 image uploads (vehicle photos, profile images)
 
-Check out a few resources that may come in handy when working with NestJS:
+📜 Swagger UI for interactive API exploration
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+🧱 Modular architecture following NestJS best practices
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+🛠️ Environment Variables
 
-## Stay in touch
+    # General
+    API_VERSION=0.1.1
+    
+    # Database
+    DATABASE_PORT=5432
+    DATABASE_USER=postgres
+    DATABASE_PASSWORD=1919
+    DATABASE_HOST=localhost
+    DATABASE_NAME=sell-my-ride-test
+    DATABASE_SYNC=true
+    DATABASE_AUTOLOAD=true
+    
+    # JWT Configuration
+    JWT_SECRET=your-secure-secret-key
+    JWT_TOKEN_AUDIENCE=localhost:3000
+    JWT_TOKEN_ISSUER=localhost:3000
+    JWT_ACCESS_TOKEN_TTL=3600
+    JWT_REFRESH_TOKEN_TTL=86400
+    
+    # AWS S3
+    AWS_ACCESS_KEY_ID=your-access-key
+    AWS_SECRET_ACCESS_KEY=your-secret-key
+    AWS_REGION=us-east-1
+    AWS_BUCKET_NAME=sell-my-ride-bucket
+    
+    # Google OAuth2
+    GOOGLE_CLIENT_ID=your-client-id
+    GOOGLE_CLIENT_SECRET=your-client-secret
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+🚀 Getting Started
 
-## License
+Clone & install
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+    git clone https://github.com/Null-logic-0/sell-my-ride-backend.git
+    cd sell-my-ride-backend
+    npm install
+
+Create your .env file
+
+Set up all values as shown above.
+
+Run locally
+
+    npm run start:dev
+
+
+     
+
+
+
+
+
