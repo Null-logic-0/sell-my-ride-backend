@@ -24,7 +24,10 @@ export function appCreate(app: INestApplication): void {
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Sell-My-Ride')
     .setDescription('Use The base Api URL as http://localhost:3000')
-    .setLicense('MIT License', '')
+    .setLicense(
+      'Apache 2.0',
+      'https://www.apache.org/licenses/LICENSE-2.0.html',
+    )
     .addServer('http://localhost:3000')
     .setVersion('1.0')
     .build();
